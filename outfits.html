@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SLAYZ Magazine - Behive the Stage</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #fff;
+            color: #333;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+        
+        /* Typography */
+        h1, h2, h3, h4, h5 {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+        
+        h1 {
+            font-size: 2rem;
+            font-weight: 800;
+        }
+        
+        p {
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        /* Layout */
+        .container {
+            max-width: 100%;
+            padding: 0;
+            margin: 0 auto;
+        }
+        
+        /* Header & Menu */
+        header {
+            background-color: #fff;
+            color: #333;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-circle {
+            width: 24px;
+            height: 24px;
+            background-color: #e91e63;
+            border-radius: 50%;
+            margin-right: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logo-circle span {
+            color: white;
+            font-size: 12px;
+        }
+        
+        .logo-text {
+            font-size: 1.25rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #e91e63;
+        }
+        
+        .menu-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #666;
+            font-size: 1.5rem;
+        }
+        
+        .subscribe-btn {
+            background-color: #e91e63;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 0.5rem 1rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+        
+        /* Feature Article */
+        .feature-article {
+            background-color: #fff;
+        }
+        
+        .feature-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            position: relative;
+        }
+        
+        .feature-image img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+        
+        .author-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            padding: 0.5rem 1rem;
+            color: #000;
+            font-size: 0.8rem;
+            font-weight: 500;
+            background-color: rgba(255, 255, 255, 0.8);
+            width: 100%;
+        }
+        
+        .feature-content {
+            padding: 1.5rem;
+        }
+        
+        .feature-title {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            font-weight: 800;
+        }
+        
+        .feature-subtitle {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+            font-weight: 500;
+        }
+        
+        .feature-text {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        /* Magazine Cover */
+        .magazine-cover {
+            margin-top: 2rem;
+            width: 100%;
+            padding: 1rem;
+            background-color: #fff;
+        }
+        
+        .magazine-cover img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        /* Navigation */
+        .nav-tabs {
+            display: flex;
+            background-color: #fff;
+            border-bottom: 1px solid #eee;
+            overflow-x: auto;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .nav-tab {
+            padding: 1rem;
+            flex-shrink: 0;
+            color: #666;
+            text-decoration: none;
+            position: relative;
+            font-size: 0.9rem;
+        }
+        
+        .nav-tab.active {
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .nav-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #e91e63;
+        }
+        
+        /* Menu Panel */
+        .menu-panel {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 80%;
+            height: 100%;
+            background-color: #fff;
+            z-index: 200;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            overflow-y: auto;
+        }
+        
+        .menu-panel.active {
+            transform: translateX(0);
+        }
+        
+        .close-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #e91e63;
+            font-size: 1.5rem;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+        }
+        
+        .menu-header {
+            padding: 1.5rem 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .menu-list {
+            list-style: none;
+        }
+        
+        .menu-list li {
+            border-bottom: 1px solid #eee;
+        }
+        
+        .menu-list a {
+            display: block;
+            padding: 1rem;
+            color: #333;
+            text-decoration: none;
+        }
+        
+        .menu-list a:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .menu-list a.active {
+            color: #e91e63;
+            font-weight: 500;
+        }
+        
+        /* Media Queries */
+        @media (min-width: 768px) {
+            .container {
+                max-width: 720px;
+                margin: 0 auto;
+            }
+            
+            .feature-content {
+                padding: 2rem;
+            }
+        }
+        
+        @media (min-width: 992px) {
+            .container {
+                max-width: 960px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <button class="menu-button">☰</button>
+            <div class="logo">
+                <div class="logo-text">SLAYZ</div>
+            </div>
+            <button class="subscribe-btn">Subscribe</button>
+        </div>
+    </header>
+    
+    <!-- Menu Panel -->
+    <div class="menu-panel">
+        <button class="close-button">✕</button>
+        <div class="menu-header">
+            <h3>Features</h3>
+        </div>
+        <ul class="menu-list">
+            <li><a href="index.html">Homepage</a></li>
+            <li><a href="music.html">Music</a></li>
+            <li><a href="#">News</a></li>
+            <li><a href="feature.html">Features</a></li>
+            <li><a href="#">Albums</a></li>
+            <li><a href="#">Department</a></li>
+            <li><a href="#" class="active">Outfits</a></li>
+            <li><a href="#">Style</a></li>
+            <li><a href="#">Healthy Living</a></li>
+            <li><a href="#">Travel & Exploration</a></li>
+        </ul>
+    </div>
+    
+    <!-- Feature Article -->
+    <article class="feature-article">
+        <div class="feature-image">
+            <img src="static/fashion.jpg" alt="Style">
+            <div class="author-info">BY KARASHIGI • APR 2024</div>
+        </div>
+        
+        <div class="feature-content">
+            <h1 class="feature-title">Cowboy Outfit: Embrace Western heritage</h1>
+            <div class="feature-text">
+                <p>The cowboy outfit, an enduring symbol of frontier spirit and rugged individu- alism, continues to captivate fashion enthusiasts and working ranchers alike with its timeless appeal. From the icon- ic cowboy hat to the weathered leather boots, each element of this ensemble exudes authenticity and character, mak- ing it a staple in both Western wear col- lections and fashion runways worldwide. At the heart of the cowboy outfia symbol of resilience and protection against dust</p>
+            </div>
+        </div>
+    </article>
+    
+    
+    <script>
+        // Simple menu toggle functionality
+        document.querySelector('.menu-button').addEventListener('click', function() {
+            document.querySelector('.menu-panel').classList.add('active');
+        });
+        
+        document.querySelector('.close-button').addEventListener('click', function() {
+            document.querySelector('.menu-panel').classList.remove('active');
+        });
+    </script>
+</body>
+</html>

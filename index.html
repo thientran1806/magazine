@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SLAYZ Magazine</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+        
+        /* Typography */
+        h1, h2, h3, h4, h5 {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+        
+        h1 {
+            font-size: 1.8rem;
+            text-transform: uppercase;
+        }
+        
+        h2 {
+            font-size: 1.5rem;
+            text-transform: uppercase;
+        }
+        
+        h3 {
+            font-size: 1.25rem;
+        }
+        
+        /* Layout */
+        .container {
+            max-width: 100%;
+            padding: 0;
+            margin: 0 auto;
+        }
+        
+        /* Header & Menu */
+        header {
+            background-color: #fff;
+            color: #333;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-circle {
+            width: 24px;
+            height: 24px;
+            background-color: #e91e63;
+            border-radius: 50%;
+            margin-right: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logo-circle span {
+            color: white;
+            font-size: 12px;
+        }
+        
+        .logo-text {
+            font-size: 1.25rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #e91e63;
+        }
+        
+        .menu-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #666;
+            font-size: 1.5rem;
+        }
+        
+        .close-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #e91e63;
+            font-size: 1.5rem;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+        }
+        
+        /* Menu Panel */
+        .menu-panel {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 80%;
+            height: 100%;
+            background-color: #fff;
+            z-index: 200;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            overflow-y: auto;
+        }
+        
+        .menu-panel.active {
+            transform: translateX(0);
+        }
+        
+        .menu-header {
+            padding: 1.5rem 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .menu-list {
+            list-style: none;
+        }
+        
+        .menu-list li {
+            border-bottom: 1px solid #eee;
+        }
+        
+        .menu-list a {
+            display: block;
+            padding: 1rem;
+            color: #333;
+            text-decoration: none;
+        }
+        
+        .menu-list a:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .menu-list a.active {
+            color: #e91e63;
+            font-weight: 500;
+        }
+        
+        /* Subscribe Button */
+        .subscribe-btn {
+            background-color: #e91e63;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 0.5rem 1rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+        
+        /* Navigation Tabs */
+        .nav-tabs {
+            display: flex;
+            background-color: #fff;
+            border-bottom: 1px solid #eee;
+            overflow-x: auto;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .nav-tab {
+            padding: 1rem;
+            flex-shrink: 0;
+            color: #666;
+            text-decoration: none;
+            position: relative;
+            font-size: 0.9rem;
+        }
+        
+        .nav-tab.active {
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .nav-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #e91e63;
+        }
+        
+        /* Hero Article */
+        .hero-article {
+            position: relative;
+            margin-bottom: 1.5rem;
+            background-color: #fff;
+        }
+        
+        .hero-image {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .hero-content {
+            padding: 1rem;
+        }
+        
+        .article-date {
+            font-size: 0.75rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        
+        .article-title {
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: #000;
+        }
+        
+        .article-subtitle {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        
+        /* Article Grid */
+        .article-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            padding: 1rem;
+        }
+        
+        .article-card {
+            background-color: #fff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .article-card-image {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .article-card-content {
+            padding: 1rem;
+        }
+        
+        .article-card-title {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+        
+        .article-card-text {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        /* Featured Article */
+        .featured-article {
+            background-color: #fff;
+            margin-bottom: 1.5rem;
+        }
+        
+        .featured-article-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 1rem;
+        }
+        
+        .featured-article-content {
+            display: grid;
+            grid-template-columns: 1fr;
+        }
+        
+        .featured-article-image {
+            width: 100%;
+        }
+        
+        .featured-article-text {
+            padding: 1rem;
+        }
+        
+        .featured-article-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .featured-article-subtitle {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        
+        .featured-article-body {
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        
+        /* Outfits Section */
+        .outfits-section {
+            background-color: #fff;
+            margin-bottom: 1.5rem;
+        }
+        
+        .outfits-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 1rem;
+        }
+        
+        .outfits-content {
+            padding: 0 1rem 1rem;
+        }
+        
+        /* Cover Section */
+        .cover-section {
+            background-color: #fff;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .cover-image {
+            width: 70%;
+            height: auto;
+            margin: 0 auto;
+            display: block;
+        }
+        
+        /* Department List */
+        .department-list {
+            background-color: #fff;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .department-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
+        .department-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .department-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 0.75rem;
+        }
+        
+        .department-text {
+            flex: 1;
+        }
+        
+        .department-title {
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+        
+        .department-desc {
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
+        /* Footer Links */
+        .footer-links {
+            background-color: #e91e63;
+            padding: 1rem;
+        }
+        
+        .footer-link {
+            display: block;
+            padding: 1rem;
+            color: #fff;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            font-size: 0.9rem;
+        }
+        
+        .footer-link:last-child {
+            border-bottom: none;
+        }
+        
+        /* Media Queries */
+        @media (min-width: 768px) {
+            .article-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .featured-article-content {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .container {
+                max-width: 720px;
+                margin: 0 auto;
+            }
+        }
+        
+        @media (min-width: 992px) {
+            .article-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .container {
+                max-width: 960px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <button class="menu-button">☰</button>
+            <div class="logo">
+                <div class="logo-text">SLAYZ</div>
+            </div>
+            <button class="subscribe-btn">Subscribe</button>
+        </div>
+    </header>
+    
+    <!-- Menu Panel -->
+    <div class="menu-panel">
+        <button class="close-button">✕</button>
+        <div class="menu-header">
+            <h3>Homepage</h3>
+        </div>
+        <ul class="menu-list">
+            <li><a href="#" class="active">Homepage</a></li>
+            <li><a href="music.html">Music</a></li>
+            <li><a href="#">News</a></li>
+            <li><a href="feature.html">Features</a></li>
+            <li><a href="#">Albums</a></li>
+            <li><a href="#">Department</a></li>
+            <li><a href="outfits.html">Outfits</a></li>
+            <li><a href="#">Style</a></li>
+            <li><a href="#">Healthy Living</a></li>
+            <li><a href="#">Travel & Exploration</a></li>
+        </ul>
+    </div>
+    
+    <!-- Hero Article -->
+    <section class="hero-article">
+        <img src="static/bee.jpg" alt="Behive the Stage" class="hero-image">
+        <div class="hero-content">
+            <a href="feature.html"><h1 class="article-title">BEHIVE the STAGE</h1></a>
+            <p class="article-subtitle">In this exclusive interview, we delve deep into the world of one of the most iconic figures in music and culture today, Beyoncé.</p>
+            <div class="article-date">APRIL 2024</div>
+        </div>
+    </section>
+    
+    <!-- Department Section -->
+    <section class="featured-article">
+        <div class="featured-article-content">
+            <div class="featured-article-image">
+                <img src="static/youth-strike.jpg" alt="Featured article" style="width: 100%; height: auto;">
+            </div>
+            <div class="featured-article-text">
+                <h1> FEATURE STORIES</h1>
+                <h2 class="featured-article-title">YOUTH ACTIVISM SPOTLIGHT</h2>
+                <p class="featured-article-subtitle">Amplify the voices of young activists and changemakers who are lead- ing movements for social justice, climate action, and equality.</p>
+                <div class="article-date">BY Mifesto Chris • APRIL 26, 2024</div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Department List -->
+    <section class="department-list">
+        <div class="department-header">
+            <span>DEPARTMENTS</span>
+            <span>VIEW ALL</span>
+        </div>
+        
+        <div class="department-item">
+            <img src="static/travel.jpg" alt="Department image" class="department-image">
+            <div class="department-text">
+                <h3 class="department-title">Exploring Nature: The Breathtaking Landscapes That Define Our Planet</h3>
+                <p class="department-desc">Travel & Exploration • May 2024</p>
+            </div>
+        </div>
+        
+        <div class="department-item">
+            <img src="static/drink.jpg" alt="Department image" class="department-image">
+            <div class="department-text">
+                <h3 class="department-title">Essential Elements of Health, Nutrition, and Wellness for Your Body and Mind</h3>
+                <p class="department-desc">Healthy Living • April 2024</p>
+            </div>
+        </div>
+        
+        <div class="department-item">
+            <img src="static/fashion.jpg" alt="Department image" class="department-image">
+            <div class="department-text">
+                <h3 class="department-title">Stepping Forward: The World Of Fashion Embracing Sustainability, Comfort & Style</h3>
+                <p class="department-desc">Style • April 2024</p>
+            </div>
+        </div>
+        
+        <div class="department-item">
+            <img src="static/mad.webp" alt="Department image" class="department-image">
+            <div class="department-text">
+                <h3 class="department-title">Industry Talk: Designer And Artist On The Future Of Creative Industries</h3>
+                <p class="department-desc">Features • March 2024</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer Links -->
+    <section class="footer-links">
+        <a href="#" class="footer-link">Discover the Next Hot Fashion Trends: Leading Designers Share Their Insights on Summer Style</a>
+        <a href="#" class="footer-link">Exploring Fashion Forward: Traditional Craftsmanship Meets Modern Design in This Season's Must-Have Collection</a>
+        <a href="#" class="footer-link">Immersed Sounds: The Future Of Music Production Enhancing Our Connection To Songs</a>
+        <a href="#" class="footer-link">Unfolding The Wellness Trend Across All Spheres of Life: A Balanced Approach to Daily Living</a>
+    </section>
+    
+    <script>
+        // Simple menu toggle functionality
+        document.querySelector('.menu-button').addEventListener('click', function() {
+            document.querySelector('.menu-panel').classList.add('active');
+        });
+        
+        document.querySelector('.close-button').addEventListener('click', function() {
+            document.querySelector('.menu-panel').classList.remove('active');
+        });
+    </script>
+</body>
+</html>
